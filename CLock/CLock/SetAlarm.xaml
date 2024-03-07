@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CLock.SetAlarm">
+    <ContentPage.Content>
+        <Grid BackgroundColor="Black">
+            <Label Text="Set Alarm" TextColor="White" VerticalOptions="Start" HorizontalOptions="Center" FontSize="30" Margin="0,20,0,0"></Label>
+            <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                <TimePicker x:Name="alarmoff" Format="hh:mm" TextColor="White" WidthRequest="200" BackgroundColor="Black"></TimePicker>
+                <Button x:Name="setalarmBtn" Text="Set Alarm" TextColor="White" Clicked="setalarmBtn_Clicked" BackgroundColor="DimGray"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

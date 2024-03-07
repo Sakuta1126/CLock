@@ -10,7 +10,7 @@ namespace CLock
         {
             InitializeComponent();
 
-            MainPage = new Navigation();
+            MainPage = new SetAlarm();
         }
 
         protected override void OnStart()
