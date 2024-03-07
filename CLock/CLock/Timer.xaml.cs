@@ -5,38 +5,47 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace CLock
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SetAlarm : ContentPage
+    public partial class Timer : ContentPage
     {
-        public SetAlarm()
+        decimal time, timetoend = 0;
+        public Timer()
         {
             InitializeComponent();
-            
         }
 
-        private void setalarmBtn_Clicked(object sender, EventArgs e)
+        private void timerstart_Clicked(object sender, EventArgs e)
         {
-            DisplayAlert("Information", "You set an alarm", "Ok");
+        
             Count();
         }
         public void Count()
         {
-            Device.StartTimer(new TimeSpan(0, 0, 0, 0, 1), () =>
+            if (timeroff.Text == "")
+            {
+                DisplayAlert("Information", "Insert value", "OK");
+            }
+            else
+            {
+                time = int.Parse(timeroff.Text) * 60;
+            }
+            Device.StartTimer(new TimeSpan(0, 0, 0, 1), () =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (DateTime.Now.ToString("hh:mm") == alarmoff.Time.ToString().Substring(0, alarmoff.Time.ToString().Length - 3))
+                    if (time < timetoend)
                     {
                         Console.Beep();
-                        DisplayAlert("Information", "Alarm!", "Ok");
+                        DisplayAlert("Information", "END", "OK");
                     }
+                    timertime.Text = Math.Floor(timetoend / 60).ToString() + ":" + timetoend.ToString();
+                    timetoend++;
                 });
-                if (DateTime.Now.ToString("hh:mm") == alarmoff.Time.ToString().Substring(0, alarmoff.Time.ToString().Length - 3))
+                if (time < timetoend)
                 {
                     return false;
                 }
@@ -46,7 +55,5 @@ namespace CLock
                 }
             });
         }
-
-        
     }
 }

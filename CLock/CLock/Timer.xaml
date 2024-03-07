@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CLock.Timer">
+    <ContentPage.Content>
+        <Grid BackgroundColor="Black">
+            <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                <Label Text="Set Timer: " FontSize="25" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+                <Entry x:Name="timeroff" Placeholder="Time must be set in minutes format" PlaceholderColor="White" TextColor="White" WidthRequest="200"></Entry>
+                <Label x:Name="timertime" Margin="0,20,0,20" HorizontalOptions="Center" Text="00:00" FontSize="35" TextColor="White"></Label>
+                <Button x:Name="timerstart" Clicked="timerstart_Clicked" TextColor="White" BackgroundColor="DimGray" Text="Set Timer"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

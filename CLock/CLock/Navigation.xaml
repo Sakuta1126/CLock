@@ -5,6 +5,8 @@
             xmlns:local="clr-namespace:CLock"
             BarBackground="black" BarTextColor="White" SelectedTabColor="MintCream">
     <local:ClockPage Title="Clock" BackgroundColor="Gray"></local:ClockPage>
+    <local:SetAlarm Title="Alarm" BackgroundColor="Gray"></local:SetAlarm>
+    <local:Timer Title="Timer" BackgroundColor="Gray"></local:Timer>
           
        
     
