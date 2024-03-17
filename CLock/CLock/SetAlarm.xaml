@@ -6,6 +6,18 @@
         <Grid BackgroundColor="Black">
             <Label Text="Set Alarm" TextColor="White" VerticalOptions="Start" HorizontalOptions="Center" FontSize="30" Margin="0,20,0,0"></Label>
             <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                <ListView x:Name="ListaAlarmow" BackgroundColor="LightSlateGray" RowHeight="80" HeightRequest="300">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label Text="{Binding Path=Time, StringFormat='{}{0:%d} days, {0:%h} hours, {0:%m} minutes,{0:%s} seconds'} " FontSize="Medium"></Label>
+                                    <Button Text="WYLACZ" Clicked="RemoveAlaram_Clicked"></Button>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <TimePicker x:Name="alarmoff" Format="hh:mm" TextColor="White" WidthRequest="200" BackgroundColor="Black" ></TimePicker>
                 <Button x:Name="setalarmBtn" Text="Set Alarm" TextColor="White" Clicked="setalarmBtn_Clicked" BackgroundColor="DimGray"></Button>
             </StackLayout>

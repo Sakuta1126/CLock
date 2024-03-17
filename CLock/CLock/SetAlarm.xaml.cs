@@ -13,40 +13,99 @@ namespace CLock
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SetAlarm : ContentPage
     {
+            List<Alarm> alarms;
+     
         public SetAlarm()
         {
             InitializeComponent();
-            
+            Update();
+            StartAlarmChecking();
+           
+        }
+        public async void Update()
+        {
+            alarms = await App.Database.ReadAlarms();
+
+          
+            foreach (var alarm in alarms)
+            {
+                DateTime currentTime = DateTime.Now;
+                DateTime alarmDateTime = new DateTime(
+                    currentTime.Year,
+                    currentTime.Month,
+                    currentTime.Day,
+                    alarm.Time.Hours,
+                    alarm.Time.Minutes,
+                    0); 
+
+              
+                if (alarmDateTime < currentTime)
+                {
+                  
+                    alarmDateTime = alarmDateTime.AddDays(1);
+                }
+
+             
+                alarm.Time = alarmDateTime - currentTime;
+            }
+
+            ListaAlarmow.ItemsSource = alarms;
         }
 
-        private void setalarmBtn_Clicked(object sender, EventArgs e)
+
+        private async void setalarmBtn_Clicked(object sender, EventArgs e)
         {
-            DisplayAlert("Information", "You set an alarm", "Ok");
-            Count();
-        }
-        public void Count()
-        {
-            Device.StartTimer(new TimeSpan(0, 0, 0, 0, 1), () =>
+            if (alarmoff.Time != null)
             {
-                Device.BeginInvokeOnMainThread(() =>
+                Alarm alarm = new Alarm { Time = alarmoff.Time };
+                await App.Database.AddAlarm(alarm);
+                await DisplayAlert("Information", "You set an alarm", "Ok");
+            }
+            else
+            {
+                await DisplayAlert("Error", "Please select a valid time for the alarm", "Ok");
+            }
+        
+            Update();
+        }
+       
+        private async void RemoveAlaram_Clicked(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var alarm = (Alarm)button.BindingContext;
+            await App.Database.DeleteAlarm(alarm);
+            
+            Update();
+        }
+        private void StartAlarmChecking()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                foreach (var alarm in alarms)
                 {
-                    if (DateTime.Now.ToString("hh:mm") == alarmoff.Time.ToString().Substring(0, alarmoff.Time.ToString().Length - 3))
+                    DateTime currentTime = DateTime.Now;
+                    DateTime alarmDateTime = new DateTime(
+                        currentTime.Year,
+                        currentTime.Month,
+                        currentTime.Day,
+                        alarm.Time.Hours,
+                        alarm.Time.Minutes,
+                        0); 
+
+                    if (alarmDateTime == currentTime)
                     {
-                        Console.Beep();
-                        DisplayAlert("Information", "Alarm!", "Ok");
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await DisplayAlert("Alarm", "It's time!", "Ok");
+                        });
                     }
-                });
-                if (DateTime.Now.ToString("hh:mm") == alarmoff.Time.ToString().Substring(0, alarmoff.Time.ToString().Length - 3))
-                {
-                    return false;
                 }
-                else
-                {
-                    return true;
-                }
+
+               
+                return true;
             });
         }
 
-        
+
     }
 }
